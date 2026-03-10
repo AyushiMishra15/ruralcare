@@ -1,0 +1,2846 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RuralCare — Healthcare for Every Indian</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --green: #1a7a4a;
+      --green-light: #22a762;
+      --green-pale: #e6f7ee;
+      --saffron: #f4820a;
+      --saffron-light: #f4c430;
+      --red: #e53e3e;
+      --red-light: #fff5f5;
+      --blue: #2b6cb0;
+      --blue-light: #ebf8ff;
+      --dark: #1a202c;
+      --mid: #4a5568;
+      --light: #718096;
+      --border: #e2e8f0;
+      --white: #ffffff;
+      --bg: #f7fafc;
+      --card: #ffffff;
+      --shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 12px 48px rgba(0, 0, 0, 0.14);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Sora', sans-serif;
+      background: var(--bg);
+      color: var(--dark);
+      overflow-x: hidden;
+    }
+
+    /* ── AWARENESS POPUP ── */
+    #awareness-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn .4s ease;
+    }
+
+    #awareness-box {
+      background: white;
+      border-radius: 20px;
+      padding: 36px;
+      max-width: 440px;
+      width: 90%;
+      position: relative;
+      border-top: 6px solid var(--saffron);
+      box-shadow: var(--shadow-lg);
+      animation: slideUp .4s ease;
+    }
+
+    .awareness-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    #awareness-box h2 {
+      font-size: 1.4rem;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+
+    #awareness-box p {
+      color: var(--mid);
+      line-height: 1.7;
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+    }
+
+    .awareness-tag {
+      display: inline-block;
+      background: var(--saffron-light);
+      color: var(--saffron);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    #close-awareness {
+      width: 100%;
+      background: var(--green);
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s;
+    }
+
+    #close-awareness:hover {
+      background: var(--green-light);
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      background: white;
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .nav-logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, var(--green), var(--green-light));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+    }
+
+    .nav-logo-text {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--dark);
+    }
+
+    .nav-logo-text span {
+      color: var(--green);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .nav-links button {
+      background: none;
+      border: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      color: var(--mid);
+      transition: all .2s;
+      font-family: 'Sora', sans-serif;
+    }
+
+    .nav-links button:hover {
+      background: var(--bg);
+      color: var(--dark);
+    }
+
+    .nav-links button.active {
+      background: var(--green-pale);
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    .nav-emergency {
+      background: var(--red) !important;
+      color: white !important;
+      border-radius: 10px !important;
+      font-weight: 700 !important;
+      animation: pulse-red 2s infinite;
+    }
+
+    .nav-emergency:hover {
+      background: #c53030 !important;
+    }
+
+    /* ── PAGES ── */
+    .page {
+      display: none;
+      min-height: calc(100vh - 68px);
+    }
+
+    .page.active {
+      display: block;
+      animation: fadeIn .3s ease;
+    }
+
+    /* ── HOME PAGE ── */
+    .hero {
+      background: linear-gradient(135deg, #0f4c2a 0%, #1a7a4a 50%, #22a762 100%);
+      padding: 80px 24px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .hero-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      color: white;
+      line-height: 1.2;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 span {
+      color: #7ee8a2;
+    }
+
+    .hero p {
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 1.1rem;
+      line-height: 1.7;
+      max-width: 600px;
+      margin-bottom: 36px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      background: var(--saffron);
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .2s;
+      font-family: 'Sora', sans-serif;
+      box-shadow: 0 4px 16px rgba(244, 130, 10, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(244, 130, 10, 0.5);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      border: 2px solid rgba(255, 255, 255, 0.4);
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+      font-family: 'Sora', sans-serif;
+      backdrop-filter: blur(4px);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+      margin-top: 48px;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      color: white;
+    }
+
+    .stat-num {
+      font-size: 2rem;
+      font-weight: 800;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin-top: 2px;
+    }
+
+    /* Features Grid */
+    .features-section {
+      padding: 64px 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 12px;
+    }
+
+    .section-sub {
+      color: var(--mid);
+      line-height: 1.7;
+      max-width: 560px;
+      margin-bottom: 48px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .feature-card {
+      background: white;
+      border-radius: 16px;
+      padding: 28px;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: all .25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--green), var(--green-light));
+      transform: scaleX(0);
+      transition: transform .25s;
+      transform-origin: left;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .feature-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .feature-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+
+    .feature-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .feature-card p {
+      font-size: 0.88rem;
+      color: var(--mid);
+      line-height: 1.6;
+    }
+
+    /* Emergency Banner */
+    .emergency-banner {
+      background: linear-gradient(135deg, #742a2a, #c53030);
+      margin: 0 24px 32px;
+      border-radius: 20px;
+      padding: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      box-shadow: 0 8px 32px rgba(197, 48, 48, 0.3);
+    }
+
+    .emergency-banner-left h2 {
+      color: white;
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .emergency-banner-left p {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.9rem;
+    }
+
+    .emergency-sos {
+      background: white;
+      color: var(--red);
+      border: none;
+      padding: 16px 32px;
+      border-radius: 14px;
+      font-size: 1.1rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all .2s;
+      font-family: 'Sora', sans-serif;
+      letter-spacing: 1px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+      animation: pulse-btn 2s infinite;
+      flex-shrink: 0;
+    }
+
+    .emergency-sos:hover {
+      transform: scale(1.05);
+    }
+
+    /* ── SYMPTOM CHECKER ── */
+    .page-header {
+      background: white;
+      padding: 40px 24px 32px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-header-inner {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .page-header h1 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .page-header p {
+      color: var(--mid);
+    }
+
+    .symptom-container {
+      max-width: 800px;
+      margin: 32px auto;
+      padding: 0 24px;
+    }
+
+    .symptom-card {
+      background: white;
+      border-radius: 20px;
+      padding: 32px;
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+
+    .symptom-card h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .symptom-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .symptom-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 14px;
+      cursor: pointer;
+      transition: all .2s;
+      font-size: 0.88rem;
+      font-weight: 500;
+    }
+
+    .symptom-chip:hover {
+      border-color: var(--green);
+      background: var(--green-pale);
+    }
+
+    .symptom-chip.selected {
+      border-color: var(--green);
+      background: var(--green-pale);
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    .symptom-chip input {
+      display: none;
+    }
+
+    .duration-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .dur-btn {
+      background: var(--bg);
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 18px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .2s;
+      font-family: 'Sora', sans-serif;
+    }
+
+    .dur-btn.selected {
+      border-color: var(--green);
+      background: var(--green-pale);
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    .voice-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--blue-light);
+      border: 2px dashed var(--blue);
+      border-radius: 12px;
+      padding: 14px 20px;
+      cursor: pointer;
+      color: var(--blue);
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all .2s;
+      margin-bottom: 20px;
+      width: 100%;
+      font-family: 'Sora', sans-serif;
+    }
+
+    .voice-btn:hover {
+      background: #dbeafe;
+    }
+
+    .btn-check {
+      width: 100%;
+      background: linear-gradient(135deg, var(--green), var(--green-light));
+      color: white;
+      border: none;
+      padding: 16px;
+      border-radius: 14px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .2s;
+      font-family: 'Sora', sans-serif;
+      box-shadow: 0 4px 16px rgba(26, 122, 74, 0.3);
+    }
+
+    .btn-check:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(26, 122, 74, 0.4);
+    }
+
+    /* Result Box */
+    #result-box {
+      display: none;
+    }
+
+    .urgency-emergency {
+      background: #fff5f5;
+      border: 2px solid #fc8181;
+      border-radius: 16px;
+      padding: 28px;
+    }
+
+    .urgency-high {
+      background: #fffaf0;
+      border: 2px solid #f6ad55;
+      border-radius: 16px;
+      padding: 28px;
+    }
+
+    .urgency-medium {
+      background: #fffff0;
+      border: 2px solid #f6e05e;
+      border-radius: 16px;
+      padding: 28px;
+    }
+
+    .urgency-low {
+      background: var(--green-pale);
+      border: 2px solid #68d391;
+      border-radius: 16px;
+      padding: 28px;
+    }
+
+    .urgency-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 14px;
+    }
+
+    .urgency-emergency .urgency-badge {
+      background: var(--red);
+      color: white;
+    }
+
+    .urgency-high .urgency-badge {
+      background: #ed8936;
+      color: white;
+    }
+
+    .urgency-medium .urgency-badge {
+      background: #d69e2e;
+      color: white;
+    }
+
+    .urgency-low .urgency-badge {
+      background: var(--green);
+      color: white;
+    }
+
+    .urgency-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .urgency-desc {
+      color: var(--mid);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+
+    .urgency-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .action-btn {
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border: none;
+      font-family: 'Sora', sans-serif;
+      transition: all .2s;
+    }
+
+    .action-btn-red {
+      background: var(--red);
+      color: white;
+    }
+
+    .action-btn-green {
+      background: var(--green);
+      color: white;
+    }
+
+    .action-btn-blue {
+      background: var(--blue);
+      color: white;
+    }
+
+    .action-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    /* ── HOSPITALS ── */
+    .hospital-container {
+      max-width: 1000px;
+      margin: 32px auto;
+      padding: 0 24px;
+    }
+
+    .hospital-search-bar {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .hospital-search-bar input {
+      flex: 1;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 0.9rem;
+      outline: none;
+      font-family: 'Sora', sans-serif;
+      min-width: 200px;
+    }
+
+    .hospital-search-bar input:focus {
+      border-color: var(--green);
+    }
+
+    .filter-btn {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      font-family: 'Sora', sans-serif;
+      transition: all .2s;
+    }
+
+    .filter-btn.active {
+      background: var(--green-pale);
+      border-color: var(--green);
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    .map-placeholder {
+      background: linear-gradient(135deg, #e6f7ee, #b7efd0);
+      border-radius: 16px;
+      height: 280px;
+      margin-bottom: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 2px dashed #68d391;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .map-pin {
+      font-size: 48px;
+      margin-bottom: 8px;
+      animation: bounce 2s infinite;
+    }
+
+    .map-placeholder p {
+      color: var(--green);
+      font-weight: 600;
+    }
+
+    .map-placeholder small {
+      color: var(--light);
+      font-size: 0.82rem;
+      margin-top: 4px;
+    }
+
+    .map-dots {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: radial-gradient(circle, rgba(26, 122, 74, 0.15) 2px, transparent 2px);
+      background-size: 30px 30px;
+    }
+
+    .hospital-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+    }
+
+    .hospital-card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid var(--border);
+      transition: all .25s;
+    }
+
+    .hospital-card:hover {
+      box-shadow: var(--shadow);
+      transform: translateY(-2px);
+    }
+
+    .hospital-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 14px;
+    }
+
+    .hospital-name {
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 4px;
+    }
+
+    .hospital-type {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: var(--green-pale);
+      color: var(--green);
+    }
+
+    .hospital-type.diagnostic {
+      background: var(--blue-light);
+      color: var(--blue);
+    }
+
+    .hospital-type.emergency {
+      background: #fff5f5;
+      color: var(--red);
+    }
+
+    .hospital-info {
+      font-size: 0.85rem;
+      color: var(--mid);
+      line-height: 1.8;
+    }
+
+    .hospital-info span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hospital-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .h-btn {
+      flex: 1;
+      padding: 9px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      font-family: 'Sora', sans-serif;
+      transition: all .2s;
+    }
+
+    .h-btn-green {
+      background: var(--green);
+      color: white;
+    }
+
+    .h-btn-outline {
+      background: white;
+      color: var(--green);
+      border: 1.5px solid var(--green) !important;
+    }
+
+    .h-btn:hover {
+      opacity: 0.85;
+    }
+
+    /* Alert sent */
+    .alert-sent {
+      display: none;
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--dark);
+      color: white;
+      padding: 14px 24px;
+      border-radius: 14px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      z-index: 9998;
+      box-shadow: var(--shadow-lg);
+      animation: slideUp .3s ease;
+    }
+
+    /* ── DOCTORS ── */
+    .doctors-container {
+      max-width: 1000px;
+      margin: 32px auto;
+      padding: 0 24px;
+    }
+
+    .doctors-filters {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .doctors-filters input {
+      flex: 1;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 0.9rem;
+      outline: none;
+      font-family: 'Sora', sans-serif;
+      min-width: 200px;
+    }
+
+    .doctors-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 16px;
+    }
+
+    .doctor-card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      border: 1px solid var(--border);
+      transition: all .25s;
+    }
+
+    .doctor-card:hover {
+      box-shadow: var(--shadow);
+      transform: translateY(-2px);
+    }
+
+    .doctor-header {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .doctor-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      background: var(--green-pale);
+      flex-shrink: 0;
+    }
+
+    .doctor-info {
+      flex: 1;
+    }
+
+    .doctor-name {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .doctor-spec {
+      color: var(--mid);
+      font-size: 0.85rem;
+      margin-top: 2px;
+    }
+
+    .verified-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--green-pale);
+      color: var(--green);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-top: 4px;
+    }
+
+    .doctor-meta {
+      display: flex;
+      gap: 16px;
+      font-size: 0.82rem;
+      color: var(--mid);
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .doctor-meta span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .fee-tag {
+      background: var(--saffron-light);
+      color: var(--saffron);
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      display: inline-block;
+      margin-bottom: 14px;
+    }
+
+    .lang-tags {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+
+    .lang-tag {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      color: var(--mid);
+    }
+
+    .doctor-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .d-btn {
+      flex: 1;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      font-family: 'Sora', sans-serif;
+      transition: all .2s;
+    }
+
+    .d-btn-green {
+      background: var(--green);
+      color: white;
+    }
+
+    .d-btn-blue {
+      background: var(--blue);
+      color: white;
+    }
+
+    .d-btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+
+    #doctors-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    /* Doctor Card */
+    .doctor-card {
+      background: linear-gradient(135deg, #f9fbff, #eef4ff);
+      border-radius: 14px;
+      padding: 18px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      border-left: 5px solid #2c7be5;
+    }
+
+    .doctor-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Doctor Name */
+    .doctor-card h3 {
+      color: #2c7be5;
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    /* Doctor Info */
+    .doctor-card p {
+      font-size: 14px;
+      margin: 4px 0;
+      color: #444;
+    }
+
+    /* Labels */
+    .doctor-card b {
+      color: #222;
+    }
+
+    /* Rating */
+    .doctor-card p:last-child {
+      color: #f39c12;
+      font-weight: bold;
+    }
+
+    /* Button */
+    .doctor-card button {
+      margin-top: 10px;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #28a745, #20c997);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .doctor-card button:hover {
+      background: linear-gradient(135deg, #218838, #17a589);
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+
+<body>
+
+
+
+  <style>
+    /* ── REGISTER ── */
+    .register-container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 0 24px;
+    }
+
+    .register-tabs {
+      display: flex;
+      background: white;
+      border-radius: 14px;
+      padding: 6px;
+      margin-bottom: 24px;
+      border: 1px solid var(--border);
+    }
+
+    .reg-tab {
+      flex: 1;
+      padding: 10px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border: none;
+      font-family: 'Sora', sans-serif;
+      transition: all .2s;
+      background: none;
+      color: var(--mid);
+    }
+
+    .reg-tab.active {
+      background: var(--green);
+      color: white;
+    }
+
+    .register-form {
+      background: white;
+      border-radius: 20px;
+      padding: 32px;
+      border: 1px solid var(--border);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+      color: var(--dark);
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 0.9rem;
+      outline: none;
+      font-family: 'Sora', sans-serif;
+      transition: border-color .2s;
+      background: var(--bg);
+      color: var(--dark);
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--green);
+      background: white;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .btn-register {
+      width: 100%;
+      background: linear-gradient(135deg, var(--green), var(--green-light));
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Sora', sans-serif;
+      transition: all .2s;
+      margin-top: 8px;
+    }
+
+    .btn-register:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(26, 122, 74, 0.35);
+    }
+
+    .success-msg {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .success-msg .big-icon {
+      font-size: 64px;
+      margin-bottom: 16px;
+    }
+
+    .success-msg h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .success-msg p {
+      color: var(--mid);
+    }
+
+    /* ── REMINDERS ── */
+    .reminders-container {
+      max-width: 700px;
+      margin: 32px auto;
+      padding: 0 24px;
+    }
+
+    .reminder-form {
+      background: white;
+      border-radius: 20px;
+      padding: 32px;
+      border: 1px solid var(--border);
+      margin-bottom: 24px;
+    }
+
+    .reminder-form h3 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+
+    .reminder-list {
+      background: white;
+      border-radius: 20px;
+      padding: 28px;
+      border: 1px solid var(--border);
+    }
+
+    .reminder-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .reminder-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .reminder-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--green-pale);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .reminder-text {
+      flex: 1;
+    }
+
+    .reminder-text strong {
+      font-weight: 600;
+      font-size: 0.95rem;
+      display: block;
+    }
+
+    .reminder-text small {
+      color: var(--mid);
+      font-size: 0.82rem;
+    }
+
+    .reminder-time {
+      background: var(--green-pale);
+      color: var(--green);
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    /* ── CHATBOT ── */
+    #chatbot-toggle {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      z-index: 999;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: none;
+      background: linear-gradient(135deg, var(--green), var(--green-light));
+      cursor: pointer;
+      font-size: 28px;
+      box-shadow: 0 6px 20px rgba(26, 122, 74, 0.4);
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: pulse-green 3s infinite;
+    }
+
+    #chatbot-toggle:hover {
+      transform: scale(1.1);
+    }
+
+    #chatbot-window {
+      display: none;
+      position: fixed;
+      bottom: 100px;
+      right: 28px;
+      width: 360px;
+      height: 500px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: var(--shadow-lg);
+      z-index: 999;
+      flex-direction: column;
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    #chatbot-window.open {
+      display: flex;
+      animation: slideUp .3s ease;
+    }
+
+    .chat-header {
+      background: linear-gradient(135deg, var(--green), var(--green-light));
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .chat-header-avatar {
+      width: 38px;
+      height: 38px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .chat-header-info {
+      flex: 1;
+    }
+
+    .chat-header-info strong {
+      color: white;
+      font-size: 0.95rem;
+      display: block;
+    }
+
+    .chat-header-info small {
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 0.78rem;
+    }
+
+    .online-dot {
+      width: 8px;
+      height: 8px;
+      background: #7ee8a2;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 4px;
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .chat-msg {
+      max-width: 80%;
+    }
+
+    .chat-msg.bot {
+      align-self: flex-start;
+    }
+
+    .chat-msg.user {
+      align-self: flex-end;
+    }
+
+    .chat-bubble {
+      padding: 10px 14px;
+      border-radius: 14px;
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    .bot .chat-bubble {
+      background: var(--bg);
+      color: var(--dark);
+      border-radius: 4px 14px 14px 14px;
+    }
+
+    .user .chat-bubble {
+      background: var(--green);
+      color: white;
+      border-radius: 14px 14px 4px 14px;
+    }
+
+    .chat-time {
+      font-size: 0.72rem;
+      color: var(--light);
+      margin-top: 3px;
+    }
+
+    .quick-replies {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      padding: 0 16px 10px;
+    }
+
+    .quick-reply {
+      background: var(--green-pale);
+      border: 1px solid var(--green);
+      color: var(--green);
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'Sora', sans-serif;
+      transition: all .2s;
+    }
+
+    .quick-reply:hover {
+      background: var(--green);
+      color: white;
+    }
+
+    .chat-input-row {
+      display: flex;
+      gap: 8px;
+      padding: 12px 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .chat-input-row input {
+      flex: 1;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 9px 14px;
+      font-size: 0.88rem;
+      outline: none;
+      font-family: 'Sora', sans-serif;
+    }
+
+    .chat-input-row input:focus {
+      border-color: var(--green);
+    }
+
+    .chat-send {
+      background: var(--green);
+      border: none;
+      border-radius: 10px;
+      padding: 9px 14px;
+      color: white;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background .2s;
+    }
+
+    .chat-send:hover {
+      background: var(--green-light);
+    }
+
+    /* ── EMERGENCY MODAL ── */
+    #emergency-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 9997;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #emergency-modal.open {
+      display: flex;
+      animation: fadeIn .3s ease;
+    }
+
+    .emergency-modal-box {
+      background: white;
+      border-radius: 24px;
+      padding: 40px;
+      max-width: 460px;
+      width: 90%;
+      text-align: center;
+      border-top: 8px solid var(--red);
+      animation: slideUp .4s ease;
+    }
+
+    .sos-pulse {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: var(--red);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      margin: 0 auto 20px;
+      animation: pulse-red 1.5s infinite;
+      box-shadow: 0 0 0 0 rgba(229, 62, 62, 0.6);
+    }
+
+    .emergency-modal-box h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--red);
+      margin-bottom: 10px;
+    }
+
+    .emergency-modal-box p {
+      color: var(--mid);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .hospital-alert-card {
+      background: var(--red-light);
+      border: 1px solid #fc8181;
+      border-radius: 14px;
+      padding: 16px;
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    .hospital-alert-card strong {
+      font-weight: 700;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .hospital-alert-card small {
+      color: var(--mid);
+      font-size: 0.85rem;
+    }
+
+    .emergency-close {
+      width: 100%;
+      background: var(--red);
+      color: white;
+      border: none;
+      padding: 14px;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Sora', sans-serif;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark);
+      color: rgba(255, 255, 255, 0.7);
+      text-align: center;
+      padding: 28px;
+      font-size: 0.85rem;
+      margin-top: 60px;
+    }
+
+    footer strong {
+      color: white;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes bounce {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @keyframes pulse-red {
+      0% {
+        box-shadow: 0 0 0 0 rgba(229, 62, 62, 0.5);
+      }
+
+      70% {
+        box-shadow: 0 0 0 14px rgba(229, 62, 62, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(229, 62, 62, 0);
+      }
+    }
+
+    @keyframes pulse-green {
+      0% {
+        box-shadow: 0 0 0 0 rgba(26, 122, 74, 0.5);
+      }
+
+      70% {
+        box-shadow: 0 0 0 14px rgba(26, 122, 74, 0);
+      }
+
+      100% {
+        box-shadow: 0 0 0 0 rgba(26, 122, 74, 0);
+      }
+    }
+
+    @keyframes pulse-btn {
+
+      0%,
+      100% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4);
+      }
+
+      50% {
+        box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+      }
+    }
+
+    @media(max-width:600px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        font-size: 1.8rem;
+      }
+
+      #chatbot-window {
+        width: calc(100vw - 32px);
+        right: 16px;
+      }
+
+      .nav-links button:not(.nav-emergency) {
+        display: none;
+      }
+    }
+  </style>
+  </head>
+
+  <body>
+
+    <!-- AWARENESS POPUP -->
+    <div id="awareness-overlay">
+      <div id="awareness-box">
+        <div class="awareness-icon">🦟</div>
+        <span class="awareness-tag">⚠️ Seasonal Health Alert — February 2025</span>
+        <h2>Dengue & Malaria Season Warning</h2>
+        <p>Cases of dengue fever and malaria are rising in rural regions. Prevent mosquito breeding by removing stagnant
+          water near your home. Watch for high fever, joint pain, or rashes and consult a doctor immediately.</p>
+        <button id="close-awareness">I Understand — Take Me to RuralCare ✓</button>
+      </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav>
+      <div class="nav-logo" onclick="showPage('home')">
+        <div class="nav-logo-icon">🏥</div>
+        <span class="nav-logo-text">Rural<span>Care</span></span>
+      </div>
+      <div class="nav-links">
+        <button onclick="showPage('home')" id="nav-home" class="active">Home</button>
+        <button onclick="showPage('symptoms')" id="nav-symptoms">Symptoms</button>
+        <button onclick="showPage('hospitals')" id="nav-hospitals">Hospitals</button>
+        <button onclick="showPage('doctors')" id="nav-doctors">Doctors</button>
+        <button onclick="showPage('reminders')" id="nav-reminders">Reminders</button>
+        <button onclick="showPage('register')" id="nav-register">Register</button>
+        <button onclick="startAssistant()">🎤 Voice Assistant</button>
+        <button class="nav-emergency" onclick="openEmergency()">🚨 SOS</button>
+      </div>
+    </nav>
+
+    <!-- ALERT SENT TOAST -->
+    <div class="alert-sent" id="alert-toast">✅ Emergency alert sent to nearest hospital!</div>
+
+    <!-- ══════════════════════════════════════
+     HOME PAGE
+══════════════════════════════════════ -->
+    <div id="page-home" class="page active">
+      <div class="hero">
+        <div class="hero-inner">
+          <div class="hero-badge">🌿 Built for Rural India &nbsp;·&nbsp; भारत के गांवों के लिए</div>
+          <h1>Quality Healthcare,<br><span>Anywhere in India</span></h1>
+          <p>Connecting rural patients with verified doctors, emergency services, and nearby hospitals — in your
+            language, at a price you can afford.</p>
+          <div class="hero-buttons">
+            <button class="btn-primary" onclick="showPage('symptoms')">🔍 Check Symptoms Now</button>
+            <button class="btn-secondary" onclick="showPage('doctors')">👨‍⚕️ Find a Doctor</button>
+          </div>
+          <div class="hero-stats">
+            <div class="stat">
+              <div class="stat-num">1,200+</div>
+              <div class="stat-label">Verified Doctors</div>
+            </div>
+            <div class="stat">
+              <div class="stat-num">480+</div>
+              <div class="stat-label">Hospitals Mapped</div>
+            </div>
+            <div class="stat">
+              <div class="stat-num">28</div>
+              <div class="stat-label">States Covered</div>
+            </div>
+            <div class="stat">
+              <div class="stat-num">₹99</div>
+              <div class="stat-label">Min. Consultation</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="max-width:1100px;margin:0 auto;">
+        <div class="emergency-banner">
+          <div class="emergency-banner-left">
+            <h2>🚨 Medical Emergency?</h2>
+            <p>One tap sends your GPS location to the nearest hospital. Help is on the way.</p>
+          </div>
+          <button class="emergency-sos" onclick="openEmergency()">SOS — CALL NOW</button>
+        </div>
+
+        <div class="features-section">
+          <div class="section-label">What We Offer</div>
+          <div class="section-title">Everything You Need, In One Place</div>
+          <div class="section-sub">From detecting emergencies to booking affordable doctors — RuralCare covers your
+            health journey end-to-end.</div>
+          <div class="features-grid">
+            <div class="feature-card" onclick="showPage('symptoms')">
+              <div class="feature-icon" style="background:#e6f7ee">🩺</div>
+              <h3>AI Symptom Checker</h3>
+              <p>Describe your symptoms and our system tells you the urgency level — Low, Medium, High, or Emergency —
+                with next steps.</p>
+            </div>
+            <div class="feature-card" onclick="openEmergency()">
+              <div class="feature-icon" style="background:#fff5f5">🚨</div>
+              <h3>GPS Emergency Alert</h3>
+              <p>One tap sends your exact location to the nearest hospital and calls emergency services automatically.
+              </p>
+            </div>
+            <div class="feature-card" onclick="showPage('hospitals')">
+              <div class="feature-icon" style="background:#ebf8ff">🗺️</div>
+              <h3>Hospital & Diagnostic Finder</h3>
+              <p>Find government hospitals, private clinics, and diagnostic centres near you with directions and contact
+                info.</p>
+            </div>
+            <div class="feature-card" onclick="showPage('doctors')">
+              <div class="feature-icon" style="background:#fffaf0">👨‍⚕️</div>
+              <h3>Verified Low-Cost Doctors</h3>
+              <p>Consult government-verified doctors starting at ₹99. Video, audio, or chat — in your language.</p>
+            </div>
+            <div class="feature-card" onclick="showPage('reminders')">
+              <div class="feature-icon" style="background:#f0fff4">⏰</div>
+              <h3>Medicine Reminders</h3>
+              <p>Set reminders for medicines, follow-ups, and vaccinations. Never miss a dose again.</p>
+            </div>
+            <div class="feature-card">
+              <div class="feature-icon" style="background:#faf5ff">🎙️</div>
+              <h3>Voice Assistance</h3>
+              <p>Speak in Hindi, Tamil, Bengali or any regional language. Our app understands and responds in your
+                tongue.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer>
+        <strong>RuralCare</strong> — Bridging the healthcare gap for <strong>800 million</strong> rural Indians.<br>
+        <span style="font-size:0.78rem;margin-top:6px;display:block">In partnership with NHM · Ayushman Bharat ·
+          Ministry of Health & Family Welfare, Govt. of India</span>
+      </footer>
+    </div>
+
+    <!-- ══════════════════════════════════════
+     SYMPTOM CHECKER PAGE
+══════════════════════════════════════ -->
+    <div id="page-symptoms" class="page">
+      <div class="page-header">
+        <div class="page-header-inner">
+          <h1>🩺 Symptom Checker</h1>
+          <p>Select your symptoms below. Our AI will assess urgency and guide you.</p>
+        </div>
+      </div>
+
+      <div class="symptom-container">
+        <div class="symptom-card">
+          <h3>🌡️ Step 1 — Select Your Symptoms</h3>
+          <div class="symptom-grid" id="symptom-grid">
+            <!-- chips injected by JS -->
+          </div>
+        </div>
+
+        <div class="symptom-card">
+          <h3>⏱️ Step 2 — How long have you had these symptoms?</h3>
+          <div class="duration-row">
+            <button class="dur-btn" onclick="selectDuration(this)">Less than a day</button>
+            <button class="dur-btn" onclick="selectDuration(this)">1–3 days</button>
+            <button class="dur-btn" onclick="selectDuration(this)">3–7 days</button>
+            <button class="dur-btn" onclick="selectDuration(this)">More than a week</button>
+          </div>
+        </div>
+
+        <div class="symptom-card">
+          <h3>🎙️ Step 3 — Or describe in your own words / Voice</h3>
+          <button class="voice-btn" onclick="simulateVoice()">
+            🎤 Tap to speak — Hindi, English, Tamil, Bengali supported
+          </button>
+          <textarea id="symptom-text"
+            placeholder="e.g. I have fever since 2 days and pain in my chest when breathing..."
+            style="height:90px;resize:none;width:100%;border:1.5px solid var(--border);border-radius:12px;padding:12px 16px;font-family:Sora,sans-serif;font-size:0.9rem;outline:none;"></textarea>
+        </div>
+
+        <button class="btn-check" onclick="checkSymptoms()">🔍 Analyse My Symptoms</button>
+
+        <div id="result-box" style="margin-top:24px;"></div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+     HOSPITALS PAGE
+══════════════════════════════════════ -->
+    <div id="page-hospitals" class="page">
+      <div class="page-header">
+        <div class="page-header-inner">
+          <h1>🏥 Nearest Hospitals & Diagnostic Centres</h1>
+          <p>Showing facilities near your location — Raipur, Chhattisgarh (auto-detected)</p>
+        </div>
+      </div>
+
+      <div class="hospital-container">
+        <div class="hospital-search-bar">
+          <input type="text" placeholder="🔍  Search by name, area or pincode...">
+          <button class="filter-btn active" onclick="filterHospital(this)">All</button>
+          <button class="filter-btn" onclick="filterHospital(this)">Govt. Hospitals</button>
+          <button class="filter-btn" onclick="filterHospital(this)">Private</button>
+          <button class="filter-btn" onclick="filterHospital(this)">Diagnostic</button>
+          <button class="filter-btn" onclick="filterHospital(this)">Emergency 24x7</button>
+        </div>
+
+        <div class="map-placeholder">
+          <div class="map-dots"></div>
+          <div class="map-pin">📍</div>
+          <p>Live Map — Hospitals & Centres Near You</p>
+          <small>GPS location detected · Showing results within 25 km radius</small>
+        </div>
+
+        <div class="hospital-grid" id="hospital-grid">
+          <!-- cards injected by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+     DOCTORS PAGE
+══════════════════════════════════════ -->
+    <div id="page-doctors" class="page">
+      <div class="page-header">
+        <div class="page-header-inner">
+          <h1>👨‍⚕️ Verified Low-Cost Doctors</h1>
+          <p>All doctors are government-verified. Consult online from ₹99.</p>
+        </div>
+      </div>
+
+      <div class="doctors-container">
+        <div class="doctors-filters">
+          <input type="text" placeholder="🔍 Search doctors..." onkeyup="searchDoctors(this.value)">
+          <button class="filter-btn active" onclick="filterDoc(this)">All</button>
+          <button class="filter-btn" onclick="filterDoc(this)">General</button>
+          <button class="filter-btn" onclick="filterDoc(this)">Child</button>
+          <button class="filter-btn" onclick="filterDoc(this)">Women</button>
+          <button class="filter-btn" onclick="filterDoc(this)">Heart</button>
+        </div>
+        <div class="doctors-grid" id="doctors-grid">
+          <!-- injected by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+     REMINDERS PAGE
+══════════════════════════════════════ -->
+    <div id="page-reminders" class="page">
+      <div class="page-header">
+        <div class="page-header-inner">
+          <h1>⏰ Medicine & Appointment Reminders</h1>
+          <p>Never miss a dose or a follow-up again.</p>
+        </div>
+      </div>
+
+      <div class="reminders-container">
+        <div class="reminder-form">
+          <h3>➕ Add New Reminder</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Medicine / Appointment Name</label>
+              <input type="text" placeholder="e.g. Paracetamol 500mg">
+            </div>
+            <div class="form-group">
+              <label>Type</label>
+              <select>
+                <option>Medicine</option>
+                <option>Doctor Appointment</option>
+                <option>Vaccination</option>
+                <option>Lab Test</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Time</label>
+              <input type="time" value="08:00">
+            </div>
+            <div class="form-group">
+              <label>Frequency</label>
+              <select>
+                <option>Daily</option>
+                <option>Twice a day</option>
+                <option>Weekly</option>
+                <option>One-time</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn-register" onclick="addReminder()">Set Reminder 🔔</button>
+        </div>
+
+        <div class="reminder-list" id="reminder-list">
+          <h3 style="font-size:1rem;font-weight:700;margin-bottom:16px">📋 Active Reminders</h3>
+          <!-- injected by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+     REGISTER PAGE
+══════════════════════════════════════ -->
+    <div id="page-register" class="page">
+      <div class="page-header">
+        <div class="page-header-inner">
+          <h1>📝 Create Your Account</h1>
+          <p>Register as a patient or a doctor to get started.</p>
+        </div>
+      </div>
+
+      <div class="register-container">
+        <div class="register-tabs">
+          <button class="reg-tab active" onclick="switchTab('patient', this)">👤 Patient Registration</button>
+          <button class="reg-tab" onclick="switchTab('doctor', this)">👨‍⚕️ Doctor Registration</button>
+        </div>
+
+        <div id="form-patient" class="register-form">
+          <div class="form-row">
+            <div class="form-group"><label>Full Name</label><input type="text" placeholder="Ramesh Kumar"></div>
+            <div class="form-group"><label>Age</label><input type="number" placeholder="34"></div>
+          </div>
+          <div class="form-group"><label>Mobile Number</label><input type="tel" placeholder="+91 98765 43210"></div>
+          <div class="form-row">
+            <div class="form-group"><label>State</label>
+              <select>
+                <option>Chhattisgarh</option>
+                <option>Madhya Pradesh</option>
+                <option>Uttar Pradesh</option>
+                <option>Bihar</option>
+                <option>Jharkhand</option>
+                <option>Rajasthan</option>
+                <option>Odisha</option>
+              </select>
+            </div>
+            <div class="form-group"><label>District / Block</label><input type="text" placeholder="Raipur Block 3">
+            </div>
+          </div>
+          <div class="form-group"><label>Preferred Language</label>
+            <select>
+              <option>Hindi</option>
+              <option>English</option>
+              <option>Bengali</option>
+              <option>Tamil</option>
+              <option>Telugu</option>
+              <option>Marathi</option>
+              <option>Gujarati</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Aadhaar (optional — for Ayushman Bharat benefits)</label><input type="text"
+              placeholder="XXXX XXXX XXXX"></div>
+          <div class="form-group"><label>Create Password</label><input type="password" placeholder="••••••••"></div>
+          <button class="btn-register" onclick="submitRegister('patient')">Register as Patient →</button>
+        </div>
+
+        <div id="form-doctor" class="register-form" style="display:none">
+          <div class="form-row">
+
+            <div class="form-group"><label>Specialty</label>
+              <select>
+                <option>General Physician</option>
+                <option>Paediatrician</option>
+                <option>Gynaecologist</option>
+                <option>Cardiologist</option>
+                <option>Dermatologist</option>
+                <option>Orthopaedic</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group"><label>Medical Registration Number (MCI / NMC)</label><input type="text"
+              placeholder="MH-2021-54321"></div>
+          <div class="form-group"><label>Mobile Number</label><input type="tel" placeholder="+91 98765 43210"></div>
+          <div class="form-row">
+            <div class="form-group"><label>State of Practice</label>
+              <select>
+                <option>Chhattisgarh</option>
+                <option>Madhya Pradesh</option>
+                <option>Uttar Pradesh</option>
+                <option>Bihar</option>
+                <option>Jharkhand</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Consultation Fee (₹)</label><input type="number" placeholder="150"></div>
+          </div>
+          <div class="form-group"><label>Languages Spoken</label><input type="text"
+              placeholder="Hindi, English, Chhattisgarhi"></div>
+          <div class="form-group"><label>Availability</label><select>
+              <option>Weekdays 9AM–5PM</option>
+              <option>Evenings 6PM–9PM</option>
+              <option>Weekends only</option>
+              <option>24x7 On-call</option>
+            </select></div>
+          <div class="form-group"><label>Upload Medical Certificate (PDF/JPG)</label><input type="file"
+              accept=".pdf,.jpg,.png"></div>
+          <button class="btn-register" onclick="submitRegister('doctor')">Submit for Verification →</button>
+        </div>
+
+        <div class="success-msg" id="register-success">
+          <div class="big-icon">🎉</div>
+          <h2>Registration Successful!</h2>
+          <p id="success-detail"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+     EMERGENCY MODAL
+══════════════════════════════════════ -->
+    <div id="emergency-modal">
+      <div class="emergency-modal-box">
+        <div class="sos-pulse">🚨</div>
+        <h2>Emergency Alert Sent!</h2>
+        <p>Your GPS location has been detected and an emergency alert has been sent to the nearest hospital.</p>
+        <div class="hospital-alert-card">
+          <strong>📍 District Hospital Raipur — 3.2 km away</strong>
+          <small>Emergency Dept notified · Ambulance dispatched · ETA ~12 minutes</small>
+        </div>
+        <p style="font-size:0.85rem;color:var(--mid);margin-bottom:20px">Also calling: <strong>108 Ambulance</strong>
+          &nbsp;|&nbsp; <strong>104 Medical Helpline</strong></p>
+        <button class="emergency-close" onclick="closeEmergency()">I'm Safe — Close Alert</button>
+      </div>
+    </div>
+
+    <!-- CHATBOT TOGGLE -->
+    <button id="chatbot-toggle" onclick="toggleChat()" title="RuralCare Assistant">💬</button>
+
+    <!-- CHATBOT WINDOW -->
+    <div id="chatbot-window">
+      <div class="chat-header">
+        <div class="chat-header-avatar">🤖</div>
+        <div class="chat-header-info">
+          <strong>RuralCare Assistant</strong>
+          <small><span class="online-dot"></span>Online · Replies instantly</small>
+        </div>
+        <span style="color:white;cursor:pointer;font-size:20px" onclick="toggleChat()">×</span>
+      </div>
+      <div class="chat-messages" id="chat-messages">
+        <div class="chat-msg bot">
+          <div class="chat-bubble">Namaste! 🙏 I'm your RuralCare health assistant. How can I help you today?</div>
+          <div class="chat-time">Just now</div>
+        </div>
+      </div>
+      <div class="quick-replies" id="quick-replies">
+        <button class="quick-reply" onclick="quickReply('I have fever')">I have fever</button>
+        <button class="quick-reply" onclick="quickReply('Find a doctor')">Find a doctor</button>
+        <button class="quick-reply" onclick="quickReply('Nearest hospital')">Nearest hospital</button>
+        <button class="quick-reply" onclick="quickReply('Book appointment')">Book appointment</button>
+      </div>
+      <div class="chat-input-row">
+        <input type="text" id="chat-input" placeholder="Type your question..." onkeypress="chatKeypress(event)">
+        <button class="chat-send" onclick="sendChat()">➤</button>
+      </div>
+    </div>
+
+    <script>
+      // ── DATA ──────────────────────────────────────────────
+      const symptoms = [
+        { icon: '🌡️', text: 'Fever' }, { icon: '🤧', text: 'Cold / Runny Nose' }, { icon: '😮‍💨', text: 'Difficulty Breathing' },
+        { icon: '💔', text: 'Chest Pain' }, { icon: '🤕', text: 'Headache' }, { icon: '🤢', text: 'Nausea / Vomiting' },
+        { icon: '💩', text: 'Diarrhoea' }, { icon: '😵', text: 'Dizziness' }, { icon: '🦴', text: 'Body / Joint Pain' },
+        { icon: '😴', text: 'Extreme Weakness' }, { icon: '🤯', text: 'High Fever (>103°F)' }, { icon: '🩸', text: 'Bleeding' },
+        { icon: '👁️', text: 'Eye / Vision Issues' }, { icon: '🦷', text: 'Toothache / Jaw Pain' }, { icon: '🤰', text: 'Pregnancy Related' },
+        { icon: '🧒', text: 'Child Sick (Under 5)' }
+      ];
+
+      const hospitals = [
+        { name: 'District Hospital Raipur', type: 'Govt. Hospitals', dist: '3.2 km', phone: '0771-2234567', hours: 'Open 24x7', beds: '240 beds', emergency: true },
+        { name: 'Jan Aushadhi Primary Health Centre', type: 'Govt. Hospitals', dist: '1.8 km', phone: '0771-2289012', hours: '8AM–6PM', beds: '30 beds', emergency: false },
+        { name: 'Vivekananda Lab & Diagnostics', type: 'Diagnostic', dist: '2.1 km', phone: '98765-11223', hours: '7AM–9PM', beds: '', emergency: false },
+        { name: 'Apollo Clinic Raipur', type: 'Private', dist: '4.5 km', phone: '0771-3344556', hours: '9AM–8PM', beds: '60 beds', emergency: false },
+        { name: 'Chhattisgarh Diagnostic Centre', type: 'Diagnostic', dist: '3.8 km', phone: '94255-66778', hours: '7AM–10PM', beds: '', emergency: false },
+        { name: 'Community Health Centre Abhanpur', type: 'Govt. Hospitals', dist: '12 km', phone: '0771-2267890', hours: 'Open 24x7', beds: '50 beds', emergency: true },
+      ];
+
+      const defaultReminders = [
+        { icon: '💊', name: 'Paracetamol 500mg', detail: 'Daily · Morning 8:00 AM', time: '08:00 AM' },
+        { icon: '💉', name: 'Polio Vaccination — Baby Arjun', detail: 'One-time · 15 Feb', time: '10:30 AM' },
+        { icon: '🏥', name: 'Follow-up: Dr. Priya Sharma', detail: 'Weekly · Tuesday 11:00 AM', time: '11:00 AM' },
+      ];
+
+      const chatResponses = {
+        'fever': 'Fever can be caused by infection, dengue, malaria, or typhoid — all common in rural India. If temperature is above 103°F or persists beyond 3 days, please use our Symptom Checker or consult a doctor immediately. Drink plenty of fluids.',
+        'doctor': "I'll help you find a doctor! Use the **Doctors** tab to browse verified low-cost doctors near you, starting from ₹99. You can filter by specialty and language. Want me to show you available doctors right now?",
+        'hospital': 'The nearest hospital to you is **District Hospital Raipur** — 3.2 km away (Phone: 0771-2234567). For emergencies, press the red SOS button at the top of the page.',
+        'appointment': 'To book an appointment, go to the **Doctors** tab, choose a doctor, and tap **Book Now**. You can consult via video, audio, or chat in your preferred language.',
+        'default': "I'm here to help with health questions, finding doctors, hospital locations, and medicine reminders. Could you tell me more about what you need? Or use the tabs above to navigate."
+      };
+
+      // ── INIT ──────────────────────────────────────────────
+      window.onload = () => {
+        renderSymptoms();
+        renderHospitals();
+
+        //renderReminders();
+      };
+
+      document.getElementById('close-awareness').onclick = () => {
+        document.getElementById('awareness-overlay').style.display = 'none';
+      };
+
+      // ── NAVIGATION ────────────────────────────────────────
+      function showPage(id) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('page-' + id).classList.add('active');
+        document.querySelectorAll('.nav-links button:not(.nav-emergency)').forEach(b => b.classList.remove('active'));
+        const nb = document.getElementById('nav-' + id);
+        if (nb) nb.classList.add('active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      // ── RENDER SYMPTOMS ───────────────────────────────────
+      function renderSymptoms() {
+        const g = document.getElementById('symptom-grid');
+        g.innerHTML = symptoms.map((s, i) => `
+    <div class="symptom-chip" onclick="toggleSymptom(this)" data-idx="${i}">
+      ${s.icon} ${s.text}
+    </div>`).join('');
+      }
+
+      function toggleSymptom(el) { el.classList.toggle('selected'); }
+      function selectDuration(el) {
+        document.querySelectorAll('.dur-btn').forEach(b => b.classList.remove('selected'));
+        el.classList.add('selected');
+      }
+
+      function simulateVoice() {
+        const phrases = ['Mujhe 2 din se bukhaar hai aur seene mein dard ho raha hai', 'I have severe headache and high fever since yesterday', 'Bacche ko diarrhoea aur bukhar hai'];
+        document.getElementById('symptom-text').value = phrases[Math.floor(Math.random() * phrases.length)];
+      }
+
+      function checkSymptoms() {
+        const selected = [...document.querySelectorAll('.symptom-chip.selected')].map(c => c.textContent.trim());
+        const text = document.getElementById('symptom-text').value.toLowerCase();
+        const box = document.getElementById('result-box');
+
+        let level = 'low';
+        const emergency = ['chest pain', 'difficulty breathing', 'bleeding', 'high fever (>103°f)'];
+        const high = ['chest pain', 'difficulty breathing', 'extreme weakness', 'dizziness'];
+        const medium = ['fever', 'headache', 'nausea / vomiting', 'diarrhoea', 'body / joint pain'];
+
+        if (selected.some(s => emergency.includes(s.toLowerCase())) || text.includes('chest') || text.includes('breathe'))
+          level = 'emergency';
+        else if (selected.some(s => high.includes(s.toLowerCase())) || text.includes('severe'))
+          level = 'high';
+        else if (selected.length >= 3 || medium.some(s => selected.map(x => x.toLowerCase()).includes(s)))
+          level = 'medium';
+        else if (selected.length > 0 || text.length > 10)
+          level = 'low';
+        else { alert('Please select at least one symptom or describe your condition.'); return; }
+
+        const results = {
+          emergency: {
+            cls: 'urgency-emergency', badge: '🚨 EMERGENCY', icon: '🚨',
+            title: 'Seek Immediate Emergency Care',
+            desc: 'Your symptoms indicate a potentially life-threatening condition. Do NOT wait. Go to the nearest emergency room immediately or tap SOS to alert the nearest hospital with your GPS location.',
+            actions: [
+              { cls: 'action-btn action-btn-red', text: '🚨 Send SOS Alert', fn: "openEmergency()" },
+              { cls: 'action-btn action-btn-blue', text: '📞 Call 108', fn: "callNum('108')" },
+              { cls: 'action-btn action-btn-green', text: '🏥 Find Hospital', fn: "showPage('hospitals')" },
+            ]
+          },
+          high: {
+            cls: 'urgency-high', badge: '⚠️ HIGH', icon: '⚠️',
+            title: 'Consult a Doctor Within 24 Hours',
+            desc: 'Your symptoms are serious and need prompt medical attention. We recommend an urgent video consultation or visiting a nearby clinic today.',
+            actions: [
+              { cls: 'action-btn action-btn-green', text: '👨‍⚕️ Consult Doctor Now', fn: "showPage('doctors')" },
+              { cls: 'action-btn action-btn-blue', text: '🏥 Find Nearest Clinic', fn: "showPage('hospitals')" },
+            ]
+          },
+          medium: {
+            cls: 'urgency-medium', badge: '🟡 MODERATE', icon: '🟡',
+            title: 'Monitor & Consult Within 2–3 Days',
+            desc: 'Your symptoms suggest a moderate health issue. Rest well, stay hydrated, and consult a doctor within 2–3 days if symptoms persist or worsen.',
+            actions: [
+              { cls: 'action-btn action-btn-green', text: '📅 Book Appointment', fn: "showPage('doctors')" },
+              { cls: 'action-btn action-btn-blue', text: '💬 Ask Chatbot', fn: "toggleChat()" },
+            ]
+          },
+          low: {
+            cls: 'urgency-low', badge: '✅ LOW', icon: '✅',
+            title: 'Home Care Likely Sufficient',
+            desc: 'Your symptoms appear mild. Rest, drink plenty of fluids, and monitor. If symptoms worsen or don\'t improve in 3 days, consult a doctor.',
+            actions: [
+              { cls: 'action-btn action-btn-green', text: '⏰ Set Medicine Reminder', fn: "showPage('reminders')" },
+              { cls: 'action-btn action-btn-blue', text: '💬 Chat with Assistant', fn: "toggleChat()" },
+            ]
+          }
+        };
+
+        const r = results[level];
+        box.style.display = 'block';
+        box.innerHTML = `
+    <div class="${r.cls}">
+      <span class="urgency-badge">${r.badge}</span>
+      <div class="urgency-title">${r.title}</div>
+      <div class="urgency-desc">${r.desc}</div>
+      <div class="urgency-actions">
+        ${r.actions.map(a => `<button class="${a.cls}" onclick="${a.fn}">${a.text}</button>`).join('')}
+      </div>
+    </div>`;
+        box.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (level === 'emergency') setTimeout(openEmergency, 1000);
+      }
+
+      // ── HOSPITALS ─────────────────────────────────────────
+      function renderHospitals(filter = 'All') {
+        const g = document.getElementById('hospital-grid');
+        const filtered = filter === 'All' ? hospitals : hospitals.filter(h => h.type === filter || (filter === 'Emergency 24x7' && h.emergency));
+        g.innerHTML = filtered.map(h => `
+    <div class="hospital-card">
+      <div class="hospital-header">
+        <div>
+          <div class="hospital-name">🏥 ${h.name}</div>
+          <div style="font-size:0.8rem;color:var(--mid);margin-top:2px">📍 ${h.dist} away</div>
+        </div>
+        <span class="hospital-type ${h.type === 'Diagnostic' ? 'diagnostic' : h.emergency ? 'emergency' : ''}">${h.type}</span>
+      </div>
+      <div class="hospital-info">
+        <span>📞 ${h.phone}</span>
+        <span>🕐 ${h.hours}</span>
+        ${h.beds ? `<span>🛏️ ${h.beds}</span>` : ''}
+        ${h.emergency ? '<span style="color:var(--red);font-weight:600">🚨 Emergency 24x7</span>' : ''}
+      </div>
+      <div class="hospital-actions">
+        <button class="h-btn h-btn-green" onclick="sendAlert('${h.name}')">📤 Send Alert</button>
+        <button class="h-btn h-btn-outline" style="border:1.5px solid var(--green)">🗺️ Get Directions</button>
+      </div>
+    </div>`).join('');
+      }
+
+      function filterHospital(el) {
+        document.querySelectorAll('#page-hospitals .filter-btn').forEach(b => b.classList.remove('active'));
+        el.classList.add('active');
+        renderHospitals(el.textContent.trim());
+      }
+
+      function sendAlert(name) {
+        const t = document.getElementById('alert-toast');
+        t.textContent = `✅ Emergency alert sent to ${name}!`;
+        t.style.display = 'block';
+        setTimeout(() => t.style.display = 'none', 3500);
+      }
+
+      function callNum(n) { alert(`Calling ${n}... (in production this would dial directly)`); }
+
+
+      // ── DOCTORS ─────────────────────────────
+
+      let doctors = [];
+
+      document.addEventListener("DOMContentLoaded", function () {
+
+        fetch("http://localhost:5000/api/doctors")
+          .then(res => res.json())
+          .then(data => {
+
+            console.log("Backend data:", data);
+
+            doctors = data;   // store backend data
+
+            renderDoctors(doctors);  // show doctors
+
+          })
+          .catch(err => console.error("Error:", err));
+
+      });
+
+
+      // SEARCH FUNCTION
+      function searchDoctors(value) {
+
+
+        fetch(`http://localhost:5000/api/doctors?search=${value}`)
+          .then(res => res.json())
+          .then(data => {
+
+            doctors = data;
+
+            renderDoctors(doctors);   // update UI
+
+          })
+          .catch(err => console.error("Search error:", err));
+
+      }
+
+      // render function
+      function renderDoctors(doctors) {
+
+        const container = document.getElementById("doctors-grid");
+        container.innerHTML = "";
+
+        doctors.forEach((doctor) => {
+
+          container.innerHTML += `
+      <div class="doctor-card">
+
+        <h3>${doctor.name}</h3>
+
+        <p>${doctor.specialty} • ${doctor.location}</p>
+
+        <p>${doctor.experience} years experience</p>
+
+        <p>Rating: ${doctor.rating} | Fee: ₹${doctor.fee}</p>
+
+        <button onclick="bookAppointment('${doctor._id}')">
+          Book Now
+        </button>
+
+      </div>
+    `;
+
+        });
+
+      }
+
+
+      // ── REGISTER ──────────────────────────────────────────
+      function switchTab(type, el) {
+        document.querySelectorAll('.reg-tab').forEach(b => b.classList.remove('active'));
+        el.classList.add('active');
+        document.getElementById('form-patient').style.display = type === 'patient' ? 'block' : 'none';
+        document.getElementById('form-doctor').style.display = type === 'doctor' ? 'block' : 'none';
+        document.getElementById('register-success').style.display = 'none';
+      }
+      async function submitRegister(type) {
+        const name = document.querySelector('input[placeholder*="Name"]').value;
+        const email = document.querySelector('input[placeholder*="Email"]').value;
+        const password = document.querySelector('input[placeholder*="Password"]').value;
+        try {
+          const response = await fetch("http://localhost:5000/api/auth/register", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ name, email, password })
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            document.querySelectorAll('.register-form').forEach(f => f.style.display = 'none');
+            document.getElementById('register-success').style.display = 'block';
+            document.getElementById('success-detail').textContent = data.message;
+          } else {
+            alert(data.message);
+          }
+
+        } catch (error) {
+          alert("Backend not running or error occurred.");
+          console.error(error);
+        }
+      }
+
+
+      // ── EMERGENCY ─────────────────────────────────────────
+      function openEmergency() {
+        document.getElementById('emergency-modal').classList.add('open');
+      }
+      function closeEmergency() {
+        document.getElementById('emergency-modal').classList.remove('open');
+      }
+
+      // ── CHATBOT ───────────────────────────────────────────
+      function toggleChat() {
+        document.getElementById('chatbot-window').classList.toggle('open');
+      }
+
+      function addMsg(text, who) {
+        const msgs = document.getElementById('chat-messages');
+        const now = new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+        msgs.innerHTML += `<div class="chat-msg ${who}"><div class="chat-bubble">${text}</div><div class="chat-time">${now}</div></div>`;
+        msgs.scrollTop = msgs.scrollHeight;
+      }
+
+      function sendChat() {
+        const inp = document.getElementById('chat-input');
+        const val = inp.value.trim();
+        if (!val) return;
+        addMsg(val, 'user');
+        inp.value = '';
+        document.getElementById('quick-replies').style.display = 'none';
+
+        // Find best response
+        const lower = val.toLowerCase();
+        let reply = chatResponses.default;
+        for (const key of Object.keys(chatResponses)) {
+          if (lower.includes(key)) { reply = chatResponses[key]; break; }
+        }
+
+        setTimeout(() => {
+          addMsg('...', 'bot');
+          setTimeout(() => {
+            const msgs = document.getElementById('chat-messages');
+            const typing = msgs.lastElementChild;
+            typing.querySelector('.chat-bubble').textContent = reply;
+          }, 800);
+        }, 300);
+      }
+
+      function quickReply(text) {
+        document.getElementById('chat-input').value = text;
+        sendChat();
+      }
+
+      function chatKeypress(e) { if (e.key === 'Enter') sendChat(); }
+    </script>
+
+    <body>
+      <script>
+
+
+
+  
+
+
+// ===============================
+// VOICE ASSISTANT SETUP
+// ===============================
+
+let isListening = false;
+
+const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+
+recognition.lang = "en-IN";
+recognition.continuous = true;
+recognition.interimResults = false;
+
+
+// ===============================
+// SPEAK FUNCTION
+// ===============================
+
+function speak(text){
+
+recognition.stop();
+
+const speech = new SpeechSynthesisUtterance(text);
+
+speech.lang = "en-IN";
+speech.rate = 1;
+
+speech.onend = function(){
+if(isListening){
+recognition.start();
+}
+};
+
+window.speechSynthesis.speak(speech);
+
+}
+
+
+// ===============================
+// PAGE LOAD MESSAGE
+// ===============================
+
+window.onload = function(){
+
+speak("Welcome to Rural Care. Press the microphone and say doctor, hospital, symptoms or emergency.");
+
+}
+
+
+// ===============================
+// START ASSISTANT
+// ===============================
+
+function startAssistant(){
+
+if(!isListening){
+
+isListening = true;
+
+speak("Voice assistant started. You can speak in Hindi or English.");
+
+recognition.start();
+
+}
+
+}
+
+
+// ===============================
+// CAPTURE USER VOICE
+// ===============================
+
+recognition.onresult = function(event){
+
+const command = event.results[event.results.length - 1][0].transcript.toLowerCase();
+
+console.log("User said:", command);
+
+handleCommand(command);
+
+};
+
+
+// ===============================
+// COMMAND ENGINE
+// ===============================
+
+function handleCommand(command){
+
+// -------- SYMPTOMS --------
+if(
+command.includes("symptom") ||
+command.includes("symptoms") ||
+command.includes("check symptoms") ||
+command.includes("lakshan") ||
+command.includes("bimari check")
+){
+
+speak("Opening symptom checker");
+
+showPage("symptoms");
+
+}
+
+
+// -------- HOSPITAL --------
+else if(
+command.includes("hospital") ||
+command.includes("find hospital") ||
+command.includes("aspatal") ||
+command.includes("nazdeeki hospital")
+){
+
+speak("Showing nearby hospitals");
+
+showPage("hospitals");
+
+}
+
+
+// -------- REMINDER --------
+else if(
+command.includes("reminder") ||
+command.includes("medicine reminder") ||
+command.includes("dawai yaad dilao")
+){
+
+speak("Opening medicine reminders");
+
+showPage("reminders");
+
+}
+
+
+// -------- EMERGENCY --------
+else if(
+command.includes("emergency") ||
+command.includes("help") ||
+command.includes("madad") ||
+command.includes("jaldi madad")
+){
+
+speak("Opening emergency services");
+
+openEmergency();
+
+}
+
+
+// -------- HEART DOCTOR --------
+else if(
+command.includes("heart doctor") ||
+command.includes("chest pain") ||
+command.includes("dil ka doctor") ||
+command.includes("seene mein dard")
+){
+
+speak("You may need a heart specialist");
+
+showPage("doctors");
+
+searchDoctors("heart");
+
+}
+
+
+// -------- CHILD DOCTOR --------
+else if(
+command.includes("child doctor") ||
+command.includes("bacche ka doctor")
+){
+
+speak("Showing child specialists");
+
+showPage("doctors");
+
+searchDoctors("child");
+
+}
+
+
+// -------- WOMEN DOCTOR --------
+else if(
+command.includes("women doctor") ||
+command.includes("mahila doctor")
+){
+
+speak("Showing women health doctors");
+
+showPage("doctors");
+
+searchDoctors("women");
+
+}
+
+
+// -------- GENERAL DOCTOR --------
+else if(
+command.includes("fever") ||
+command.includes("bukhar")
+){
+
+speak("You may need a general doctor");
+
+showPage("doctors");
+
+searchDoctors("general");
+
+}
+
+
+// -------- DOCTOR --------
+else if(
+command.includes("doctor") ||
+command.includes("find doctor") ||
+command.includes("daaktar") ||
+command.includes("doctor dikhao") ||
+command.includes("mujhe doctor chahiye")
+){
+
+speak("Opening doctors page");
+
+showPage("doctors");
+
+}
+
+
+// -------- HOME --------
+else if(
+command.includes("home") ||
+command.includes("ghar")
+){
+
+speak("Going to home page");
+
+showPage("home");
+
+}
+
+
+// -------- UNKNOWN --------
+else{
+
+speak("Sorry I did not understand. Aap doctor, hospital, symptoms ya emergency bol sakte hain.");
+
+}
+
+}
+
+
+// ===============================
+// KEEP LISTENING
+// ===============================
+
+recognition.onend = function(){
+
+if(isListening){
+recognition.start();
+}
+
+};
+
+recognition.onerror = function(event){
+
+console.log("Voice error:", event.error);
+
+};
+
+</script>
+        
